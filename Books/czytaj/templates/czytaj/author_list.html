@@ -1,0 +1,15 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <h3>Oto lista dostępnych autorów książek w kolejności alfabetycznej:</h3>
+
+     <ul>
+    {% for author in authors %}
+    <li><a href="/author/{{author.id}}/"> {{author}}</a></li>
+    {% endfor %}
+     </ul>
+<h3>Nie znalazłeś swojej ulubionego autora?</h3>
+<h3>Nic straconego. Zawsze możesz go dodać!</h3>
+<h3><a href="/add_author/">Dodaj autora</a></li>
+
+{% endblock %}

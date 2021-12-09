@@ -1,0 +1,16 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <ul>
+    <li>Tytuł: {{ book }}</li>
+    <li>Autor:{{ book.book_author }}</li>
+    <li>Rok wydania: {{ book.year_of_publication }} </li>
+    <li>Wydawnictwo: {{ book.publishing_house }} </li>
+    <li>Gatunek: {{ book.get_genre_display}} </li>
+    </ul>
+
+
+
+
+
+{% endblock %}

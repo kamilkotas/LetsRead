@@ -1,0 +1,16 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <ul>
+    <li>Imię:  {{ author.first_name }}</li>
+    <li>Nazwisko: {{ author.last_name }}</li>
+    <li>Data urodzenia: {{ author.year_of_birth }} </li>
+    {% if author.year_of_death != None %}
+    <li>Data Śmierci: {{ author.year_of_death }} </li>
+    {% endif %}
+    </ul>
+    <p>Książki:</p>
+    {% for book in author.books_choice.all %}
+    <li> {{book}} </li>
+    {% endfor %}
+{% endblock %}

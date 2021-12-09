@@ -1,0 +1,12 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h1>Zaloguj się</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Zaloguj">
+    </form>
+    <p>Nie jesteś jeszcze naszym użytkownikiem?</p>
+    <p>Nic straconego! Załóż nowe konto!</p>
+    <p><a href="/add_user/">Załóż konto</p>
+{% endblock %}

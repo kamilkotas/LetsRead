@@ -1,0 +1,13 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h1>Dodaj recenzje</h1>
+    <p>Podziel się z resztą Twoją opinią o książce.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+     <input type="submit" value="Dodaj">
+    </form>
+
+
+
+{% endblock %}

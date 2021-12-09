@@ -1,0 +1,15 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <h3>Oto lista dostępnych książek:</h3>
+
+     <ul>
+    {% for book in books %}
+    <li><a href="/book/{{book.id}}/">{{book}}</a></li>
+    {% endfor %}
+     </ul>
+<h3>Nie znalazłeś swojej ulubionej książki?</h3>
+<h3>Nic straconego. Zawsze możesz ją dodać!</h3>
+<h3><a href="/add_book/">Dodaj książke</a></li>
+
+{% endblock %}
