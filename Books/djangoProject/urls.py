@@ -31,5 +31,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view()),
     path('review/<int:book_id>/', ReviewView.as_view()),
-    path('add_user/', AddUserView.as_view()),
+    path('add_user/', AddUserView.as_view(), name="add-usser"),
 ]

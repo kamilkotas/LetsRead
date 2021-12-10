@@ -5,6 +5,12 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
 from czytaj.forms import LoginForm, AddUserForm
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
+
+
+
+
 # Create your views here.
 
 
@@ -34,8 +40,10 @@ class BookView(View):
         return render(request, "czytaj/book.html", {"book": book})
 
 
-class AddBookView(CreateView):
+class AddBookView(PermissionRequiredMixin, CreateView):
     """Form that adds a book to database"""
+    permission_required = "czytaj/add_book"
+    login_url = "/login/"
     model = Book
     fields = ["tittle", "book_author", "year_of_publication", "publishing_house", "genre", "rating"]
     success_url = ("/books_list/")
@@ -48,8 +56,9 @@ class AuthorListView(View):
         return render(request, 'czytaj/author_list.html', {"authors": authors})
 
 
-class AddAuthorView(CreateView):
+class AddAuthorView(LoginRequiredMixin, CreateView):
     """Form that adds a book author to database"""
+    login_url = "/login/"
     model = Author
     fields = "__all__"
     success_url = ("/authors_list/")
@@ -62,7 +71,10 @@ class AuthorView(View):
         return render(request, 'czytaj/author.html', {"author": author})
 
 
-class AddReviewView(CreateView):
+class AddReviewView(PermissionRequiredMixin, CreateView):
+    """Class creates form to add review to database."""
+    permission_required = "czytaj/add_review"
+    login_url = "/login/"
     model = Review
     fields = "__all__"
     success_url = ("/")
