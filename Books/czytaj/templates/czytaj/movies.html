@@ -1,0 +1,11 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <ul>
+    <li>Film:  {{ movie }}</li>
+    <li>Reżyser: {{ movie.director}}</li>
+    <li>Rok premiery:{{  movie.year_of_premiere }}</li>
+    <li>Zekranizowana książka: {{ movie.book }}</li>
+    </ul>
+
+{% endblock %}

@@ -1,17 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Book, Author, Review
+from .models import Book, Author, Review, ScreenAdaptation
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
 from czytaj.forms import LoginForm, AddUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-
-
-
-
-
-# Create your views here.
 
 
 class MainView(View):
@@ -139,3 +133,24 @@ class AddUserView(View):
             return render(request, "czytaj/adduser.html", {"form": form, "message": message})
         else:
             return render(request, "czytaj/adduser.html", {"form": form})
+
+
+class ScreenAdaptationView(View):
+    """Shows a view with movies based on the book."""
+    def get(self, request):
+        movies = ScreenAdaptation.objects.all()
+        return render(request, "czytaj/movielist.html", {"movies": movies})
+
+
+class MovieView(View):
+    """Shows the view for a movie adaptation"""
+    def get(self, request, movie_id):
+        movie = ScreenAdaptation.objects.get(id=movie_id)
+        return render(request, "czytaj/movies.html", {"movie": movie})
+
+class AddMovieView(LoginRequiredMixin, CreateView):
+    """Adds movie to database"""
+    login_url = "/login/"
+    model = ScreenAdaptation
+    fields = "__all__"
+    success_url = "/movielist/"

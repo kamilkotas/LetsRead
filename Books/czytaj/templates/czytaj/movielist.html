@@ -1,0 +1,14 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <h3>Oto lista dostępnych ekranizacji naszych książek:</h3>
+     <ul>
+    {% for movie in movies %}
+    <li><a href="/movie/{{movie.id}}/">{{movie}}</a> na podstawie książki {{movie.book}}</li>
+    {% endfor %}
+     </ul>
+<h3>Nie znalazłeś ekranizacji swojej ulubionej książki?</h3>
+<h3>Nic straconego. Zawsze możesz ją dodać!</h3>
+<h3><a href="/add_movie/">Dodaj film</a></li>
+
+{% endblock %}

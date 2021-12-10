@@ -53,3 +53,13 @@ class Review(models.Model):
     def __str__(self):
         return self.review
 
+
+class ScreenAdaptation(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Książka")
+    movie = models.CharField(max_length=64, verbose_name="Film")
+    director = models.CharField(max_length=64, verbose_name="Reżyser")
+    year_of_premiere = models.IntegerField(verbose_name="Rok premiery")
+    description = models.TextField(default="")
+
+    def __str__(self):
+        return self.movie

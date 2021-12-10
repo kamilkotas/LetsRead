@@ -1,6 +1,8 @@
 from django.contrib import admin
-from czytaj.models import Book, Author
+from czytaj.models import Book, Author, Review, ScreenAdaptation
 # Register your models here.
 
 admin.site.register(Book)
 admin.site.register(Author)
+admin.site.register(Review)
+admin.site.register(ScreenAdaptation)
