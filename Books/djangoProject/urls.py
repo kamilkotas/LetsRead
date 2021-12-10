@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from czytaj.views import (MainView, ListOfBooksView, BookView, AddBookView, AuthorListView, AddAuthorView, AuthorView, AddReviewView,
-                          LoginView, LogoutView)
+from czytaj.views import (MainView, ListOfBooksView, BookView, AddBookView, AuthorListView, AddAuthorView, AuthorView,
+                          LoginView, LogoutView, AddReviewView, ReviewView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('add_review/', AddReviewView.as_view(), name="review"),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view()),
+    path('review/<int:book_id>/', ReviewView.as_view()),
 ]

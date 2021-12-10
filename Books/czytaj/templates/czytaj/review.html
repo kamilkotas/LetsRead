@@ -1,0 +1,22 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <li>Tytuł: {{ book }}</li>
+    {% if reviews %}
+    {% for review in reviews %}
+    <ul>
+    <li>{{ review }}</li>
+    </ul>
+    {% endfor %}
+    {% else %}
+
+<p><PRE>
+Ta książka nie ma jeszcze recenzji.
+Bądź pierwszym który ją zrecenzuje!
+</PRE>
+    <p><a href="/add_review/">Dodaj recenzje</a></p>
+    {% endif %}
+
+
+
+{% endblock %}

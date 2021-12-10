@@ -10,7 +10,9 @@
     {% endif %}
     </ul>
     <p>Książki:</p>
-    {% for book in author.books_choice.all %}
+    {% for book in author.books.all %}
+    <ul>
     <li> {{book}} </li>
+    </ul>
     {% endfor %}
 {% endblock %}

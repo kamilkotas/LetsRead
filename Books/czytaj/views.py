@@ -92,3 +92,11 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('/')
+
+
+class ReviewView(View):
+    """Shows the review of books in the database if there are any."""
+    def get(self, request, book_id):
+        book = Book.objects.get(id=book_id)
+        reviews = Review.objects.filter(book_id=book_id)
+        return render(request, 'czytaj/review.html', {'book': book, "reviews": reviews})
