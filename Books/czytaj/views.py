@@ -3,8 +3,8 @@ from django.views import View
 from .models import Book, Author, Review
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
-from czytaj.forms import LoginForm
-
+from czytaj.forms import LoginForm, AddUserForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -100,3 +100,30 @@ class ReviewView(View):
         book = Book.objects.get(id=book_id)
         reviews = Review.objects.filter(book_id=book_id)
         return render(request, 'czytaj/review.html', {'book': book, "reviews": reviews})
+
+
+class AddUserView(View):
+    """Shows a view where you can register for the app."""
+    def get(self, request):
+        form = AddUserForm()
+        return render(request, "czytaj/adduser.html", {"form": form})
+
+    def post(self, request):
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            login = form.cleaned_data["login"]
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
+            User.objects.create_user(
+                                    username=login,
+                                    password=password,
+                                    first_name=first_name,
+                                    last_name=last_name,
+                                    email=email,
+            )
+            message = "Konto dodane do bazy danych"
+            return render(request, "czytaj/adduser.html", {"form": form, "message": message})
+        else:
+            return render(request, "czytaj/adduser.html", {"form": form})

@@ -1,0 +1,13 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h1>Zarejestruj się</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Stwórz">
+    </form>
+    {% if message %}
+        <h3>{{ message }}</h3>
+    {% endif %}
+
+{% endblock %}
