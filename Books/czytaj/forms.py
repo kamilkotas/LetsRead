@@ -1,6 +1,7 @@
 from django import forms
-from django.core.validators import validate_email, ValidationError
+from django.core.validators import ValidationError
 from django.contrib.auth.models import User
+from .models import UserStory
 
 
 class LoginForm(forms.Form):
@@ -33,4 +34,10 @@ class AddUserForm(forms.Form):
         if password != password2:
             raise ValidationError("Hasła nie są takie same")
         return cleaned_data
+
+
+class UserStoryForm(forms.ModelForm):
+    class Meta:
+        model = UserStory
+        fields =['story']
 

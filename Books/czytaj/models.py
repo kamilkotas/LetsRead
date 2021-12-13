@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 
 STARS = (
@@ -26,9 +27,9 @@ GENRE = (
 class Author(models.Model):
     first_name = models.CharField(max_length=128, verbose_name="Imię")
     last_name = models.CharField(max_length=128, verbose_name="Nazwisko")
-    year_of_birth = models.DateField(verbose_name="Rok urodzenia")
+    year_of_birth = models.DateField(verbose_name="Rok urodzenia", null=True)
     year_of_death = models.DateField(verbose_name="Rok śmierci", help_text="opcjonalnie: jeżeli nie żyje", default=None, null=True, blank=True)
-    books = models.ManyToManyField("Book", verbose_name="Książki autora")
+    books = models.ManyToManyField("Book", verbose_name="Książki autora", null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -63,3 +64,9 @@ class ScreenAdaptation(models.Model):
 
     def __str__(self):
         return self.movie
+
+
+class UserStory(models.Model):
+    story = models.TextField(verbose_name="Twoja twórczość:")
+    date_posted = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)

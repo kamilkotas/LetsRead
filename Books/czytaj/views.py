@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Book, Author, Review, ScreenAdaptation
+from .models import Book, Author, Review, ScreenAdaptation, UserStory
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
-from czytaj.forms import LoginForm, AddUserForm
+from czytaj.forms import LoginForm, AddUserForm, UserStoryForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
 
 
 class MainView(View):
@@ -148,9 +149,34 @@ class MovieView(View):
         movie = ScreenAdaptation.objects.get(id=movie_id)
         return render(request, "czytaj/movies.html", {"movie": movie})
 
+
 class AddMovieView(LoginRequiredMixin, CreateView):
     """Adds movie to database"""
     login_url = "/login/"
     model = ScreenAdaptation
     fields = "__all__"
     success_url = "/movielist/"
+
+
+class UserStoryView(View):
+    def get(self, request):
+        user_text = UserStory.objects.all()
+        return render(request, 'czytaj/users_storys.html', {"user_text": user_text})
+
+
+class AddUserStoryView(LoginRequiredMixin, View):
+    """The user can add things his work on our site"""
+    login_url = "/login/"
+    def get(self, request):
+        form = UserStoryForm()
+        return render(request, "czytaj/addstory.html", {"form": form})
+
+    def post(self, request):
+        form = UserStoryForm(request.POST or None)
+        if form.is_valid():
+            content = form.cleaned_data['story']
+            story = UserStory.objects.create(author=request.user, story=content)
+            story.save()
+            return redirect("/user_story/")
+        else:
+            return render(request, "czytaj/addstory.html", {"form": form})

@@ -1,0 +1,19 @@
+{% extends 'czytaj/base.html' %}
+{% block content %}
+    <h2>Witaj czytelniku!!!</h2>
+    <p>Czy marzyłeś/łaś aby aby samemu zacząć pisać?? Zacznij tutaj!!! Podziel się Twoją twórczością z nami! Sam zobacz jak bardzo utalentowani są nasi użytkownicy!</p>
+    <ul>
+    {% for text in user_text %}
+        <li>{{ text.story }}</li>
+        <li><small>Użytkownik: {{ text.author }}</small></li>
+        <li><small>Data dodania: {{ text.date_posted }}</small></li>
+        <li><-----------------------------></li>
+    {% endfor %}
+    </ul>
+    <p><a href="/add_story/">Dodaj swoje dzieło</a></p>
+
+
+
+
+
+{% endblock %}
