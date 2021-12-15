@@ -7,6 +7,7 @@
     <li>Rok wydania: {{ book.year_of_publication }} </li>
     <li>Wydawnictwo: {{ book.publishing_house }} </li>
     <li>Gatunek: {{ book.get_genre_display}} </li>
+    <li>Gwiazdki:  {{ book.get_rating_display }} ({{book.rating}})</li>
     </ul>
     <p><a href="/review/{{book.id}}/">Pokaż recenzje</a></p>
 

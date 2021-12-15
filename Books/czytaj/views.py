@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
 from czytaj.forms import LoginForm, AddUserForm, UserStoryForm
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -22,22 +22,22 @@ class ListOfBooksView(View):
     Class shows the lists of books in database.
     """
     def get(self, request):
-        books = Book.objects.all()
-        return render(request, 'czytaj/book_list.html', {"books": books})
+        books = Book.objects.all().order_by("tittle")
+        counter = Book.objects.all().count()
+        return render(request, 'czytaj/book_list.html', {"books": books, "counter": counter})
 
 
 class BookView(View):
     """
-    Class show datails of the book.
+    Class show details of the book.
     """
     def get(self, request, book_id):
         book = Book.objects.get(id=book_id)
         return render(request, "czytaj/book.html", {"book": book})
 
 
-class AddBookView(PermissionRequiredMixin, CreateView):
+class AddBookView(LoginRequiredMixin, CreateView):
     """Form that adds a book to database"""
-    permission_required = "czytaj/add_book"
     login_url = "/login/"
     model = Book
     fields = ["tittle", "book_author", "year_of_publication", "publishing_house", "genre", "rating"]
@@ -48,7 +48,8 @@ class AuthorListView(View):
     """List of all the authors in database"""
     def get(self, request):
         authors = Author.objects.all().order_by("first_name")
-        return render(request, 'czytaj/author_list.html', {"authors": authors})
+        counter = Author.objects.all().count()
+        return render(request, 'czytaj/author_list.html', {"authors": authors, "counter": counter})
 
 
 class AddAuthorView(LoginRequiredMixin, CreateView):
@@ -66,13 +67,12 @@ class AuthorView(View):
         return render(request, 'czytaj/author.html', {"author": author})
 
 
-class AddReviewView(PermissionRequiredMixin, CreateView):
+class AddReviewView(LoginRequiredMixin, CreateView):
     """Class creates form to add review to database."""
-    permission_required = "czytaj/add_review"
     login_url = "/login/"
     model = Review
     fields = "__all__"
-    success_url = ("/")
+    success_url = ("/books_list/")
 
 
 class LoginView(View):
@@ -172,7 +172,7 @@ class AddUserStoryView(LoginRequiredMixin, View):
         return render(request, "czytaj/addstory.html", {"form": form})
 
     def post(self, request):
-        form = UserStoryForm(request.POST or None)
+        form = UserStoryForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['story']
             story = UserStory.objects.create(author=request.user, story=content)

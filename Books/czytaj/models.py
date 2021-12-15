@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
 # Create your models here.
 
 STARS = (
@@ -29,7 +30,7 @@ class Author(models.Model):
     last_name = models.CharField(max_length=128, verbose_name="Nazwisko")
     year_of_birth = models.DateField(verbose_name="Rok urodzenia", null=True)
     year_of_death = models.DateField(verbose_name="Rok śmierci", help_text="opcjonalnie: jeżeli nie żyje", default=None, null=True, blank=True)
-    books = models.ManyToManyField("Book", verbose_name="Książki autora", null=True)
+    books = models.ManyToManyField("Book", verbose_name="Książki autora", null=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -49,7 +50,9 @@ class Book(models.Model):
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Książka")
+    tittle = models.CharField(max_length=256, verbose_name="Tytuł recenzji", default="")
     review = models.TextField(verbose_name="Recenzja")
+
 
     def __str__(self):
         return self.review

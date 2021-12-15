@@ -5,7 +5,8 @@
     {% if reviews %}
     {% for review in reviews %}
     <ul>
-    <li>{{ review }}</li>
+    <li><h5>Recenzja: {{review.tittle}}</h5></li>
+    <li> {{ review }}</li>
     </ul>
     {% endfor %}
     {% else %}

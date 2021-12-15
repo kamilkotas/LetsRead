@@ -25,9 +25,8 @@ class AddUserForm(forms.Form):
     last_name = forms.CharField(label="Nazwisko", max_length=64)
     email = forms.EmailField(label="e-mail")
 
-
-
     def clean(self):
+        """Checks if password1 and to password2 are the same."""
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
@@ -39,5 +38,7 @@ class AddUserForm(forms.Form):
 class UserStoryForm(forms.ModelForm):
     class Meta:
         model = UserStory
-        fields =['story']
+        fields = ['story']
+
+
 
