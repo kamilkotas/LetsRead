@@ -36,9 +36,10 @@ class AddUserForm(forms.Form):
 
 
 class UserStoryForm(forms.ModelForm):
+    """Form to add short work from users"""
     class Meta:
         model = UserStory
-        fields = ['story']
+        fields = ['tittle', 'story']
 
 
 

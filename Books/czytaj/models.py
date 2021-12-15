@@ -70,6 +70,7 @@ class ScreenAdaptation(models.Model):
 
 
 class UserStory(models.Model):
+    tittle = models.CharField(max_length=64, verbose_name="Tytuł", default="")
     story = models.TextField(verbose_name="Twoja twórczość:")
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

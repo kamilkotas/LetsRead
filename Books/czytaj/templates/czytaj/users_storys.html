@@ -4,6 +4,7 @@
     <p>Czy marzyłeś/łaś aby aby samemu zacząć pisać?? Zacznij tutaj!!! Podziel się Twoją twórczością z nami! Sam zobacz jak bardzo utalentowani są nasi użytkownicy!</p>
     <ul>
     {% for text in user_text %}
+        <li>Tytuł: {{ text.tittle }} </li>
         <li>{{ text.story }}</li>
         <li><small>Użytkownik: {{ text.author }}</small></li>
         <li><small>Data dodania: {{ text.date_posted }}</small></li>

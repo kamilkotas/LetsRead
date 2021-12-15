@@ -1,4 +1,4 @@
-from czytaj.models import Book, Author
+from czytaj.models import Book, Author, ScreenAdaptation
 from django.contrib.auth.models import User
 import pytest
 
@@ -31,9 +31,21 @@ def parent_user():
 
 
 @pytest.fixture
-def examples_of_books(example_author):
-    Book.objects.create(tittle="Example1", book_author=example_author, year_of_publication=1990, publishing_house="Świat Książki", genre=3, rating=4)
-    Book.objects.create(tittle="Example2", book_author=example_author, year_of_publication=1990, publishing_house="Świat Książki", genre=3, rating=4)
-    Book.objects.create(tittle="Example3", book_author=example_author, year_of_publication=1990, publishing_house="Świat Książki", genre=3, rating=4)
-    Book.objects.create(tittle="Example4", book_author=example_author, year_of_publication=1990, publishing_house="Świat Książki", genre=3, rating=4)
-    Book.objects.create(tittle="Example5", book_author=example_author, year_of_publication=1990, publishing_house="Świat Książki", genre=3, rating=4)
+def movie_example(example_book):
+    return ScreenAdaptation.objects.create(
+        book=example_book,
+        movie="Example movie",
+        director="Example director",
+        year_of_premiere=1999,
+        description="adsfasd adsf asd fads"
+    )
+
+
+@pytest.fixture
+def example_movies(example_book):
+    ScreenAdaptation.objects.create(book=example_book, movie="Example1", director="Sample1", year_of_premiere=2000,
+                                    description="aaa aaaaa aaa")
+    ScreenAdaptation.objects.create(book=example_book, movie="Example2", director="Sample2", year_of_premiere=2001,
+                                    description="aaa aaaaa aaa")
+    ScreenAdaptation.objects.create(book=example_book, movie="Example3", director="Sample3", year_of_premiere=2002,
+                                    description="aaa aaaaa aaa")

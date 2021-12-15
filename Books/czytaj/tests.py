@@ -1,7 +1,7 @@
 import datetime
 
 from django.test import Client
-from .models import Book, Author, Review
+from .models import Book, Author, Review, ScreenAdaptation, UserStory
 from pytest_django.asserts import assertTemplateUsed
 from django.contrib.auth.models import User
 import pytest
@@ -14,8 +14,8 @@ def test_main_site_status(client):
 
 
 @pytest.mark.django_db
-def test_books_list_view(client, examples_of_books):
-    response = client.get("/books_list/", examples_of_books)
+def test_books_list_view(client, ):
+    response = client.get("/books_list/")
     assert response.status_code == 200
     assertTemplateUsed(response, 'czytaj/book_list.html')
     assert len(response.context['books']) == Book.objects.all().count()
@@ -95,6 +95,66 @@ def test_add_user(client):
     assert new_user.first_name == "Anon"
     assert new_user.last_name == "Anonimowy"
     assert new_user.email == "Anon@gmail.com"
+
+
+@pytest.mark.django_db
+def test_login_user(client):
+    client.post("/add_user/", {"login": "Example", "password": "myszykiszki1", "password2": "myszykiszki1",
+                                "first_name": "Anon", "last_name": "Anonimowy", "email": "Anon@gmail.com"})
+    response = client.post('/login/', {"login": 'Example', "password": 'myszykiszki1'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_screen_adaptation(client, example_movies):
+    response = client.get('/movielist/', example_movies)
+    assert response.status_code == 200
+    assert len(response.context['movies']) == ScreenAdaptation.objects.all().count()
+    assertTemplateUsed('czytaj/movielist.html')
+
+
+@pytest.mark.django_db
+def test_movie_view(client, movie_example, example_book):
+    response = client.get(f"/movie/{movie_example.id}", {}, True)
+    print(response.content)
+    assert response.status_code == 200
+    assert response.context['movie'].book == example_book
+    assert response.context['movie'].movie == "Example movie"
+    assert response.context['movie'].director == "Example director"
+    assert response.context['movie'].year_of_premiere == 1999
+    assert response.context['movie'].description == "adsfasd adsf asd fads"
+
+
+@pytest.mark.django_db
+def test_add_movie(client, example_book, parent_user):
+    client.force_login(parent_user)
+    response = client.post("/add_movie/", {"book": example_book.id, "movie": "Example movie", "director": "Woody Allen",
+                                "year_of_premiere": 2021, "description": "Ale gniot"})
+    print(response.content)
+    assert response.status_code == 302
+    movie = ScreenAdaptation.objects.get(movie="Example movie")
+    assert movie.book == example_book
+    assert movie.director == "Woody Allen"
+    assert movie.year_of_premiere == 2021
+    assert movie.description == "Ale gniot"
+
+
+@pytest.mark.django_db
+def test_user_story(client):
+    response = client.get("/user_story/")
+    assert response.status_code == 200
+    assertTemplateUsed("czytaj/user_storys.html")
+
+
+@pytest.mark.django_db
+def test_add_story(client, parent_user):
+    client.force_login(parent_user)
+    response = client.post("/add_story/", {"tittle": "Historia", "story": "O to moja historia..."})
+    assert response.status_code == 302
+    text = UserStory.objects.get(tittle="Historia")
+    assert text.story == "O to moja historia..."
+    assert text.author == parent_user
+
 
 
 

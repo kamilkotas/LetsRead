@@ -165,7 +165,7 @@ class UserStoryView(View):
 
 
 class AddUserStoryView(LoginRequiredMixin, View):
-    """The user can add things his work on our site"""
+    """The user can add things he wrote on our site"""
     login_url = "/login/"
     def get(self, request):
         form = UserStoryForm()
@@ -175,7 +175,8 @@ class AddUserStoryView(LoginRequiredMixin, View):
         form = UserStoryForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['story']
-            story = UserStory.objects.create(author=request.user, story=content)
+            tittle = form.cleaned_data['tittle']
+            story = UserStory.objects.create(author=request.user, story=content, tittle=tittle)
             story.save()
             return redirect("/user_story/")
         else:
