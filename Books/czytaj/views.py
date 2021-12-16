@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Book, Author, Review, ScreenAdaptation, UserStory
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from czytaj.forms import LoginForm, AddUserForm, UserStoryForm
 from django.contrib.auth.models import User
@@ -65,6 +65,14 @@ class AuthorView(View):
     def get(self, request, author_id):
         author = Author.objects.get(id=author_id)
         return render(request, 'czytaj/author.html', {"author": author})
+
+
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
+    """Updates author model"""
+    login_url = "/login/"
+    model = Author
+    fields = ["books"]
+    success_url = ('/authors_list/')
 
 
 class AddReviewView(LoginRequiredMixin, CreateView):

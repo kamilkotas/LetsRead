@@ -30,10 +30,14 @@ class Author(models.Model):
     last_name = models.CharField(max_length=128, verbose_name="Nazwisko")
     year_of_birth = models.DateField(verbose_name="Rok urodzenia", null=True)
     year_of_death = models.DateField(verbose_name="Rok śmierci", help_text="opcjonalnie: jeżeli nie żyje", default=None, null=True, blank=True)
-    books = models.ManyToManyField("Book", verbose_name="Książki autora", null=True, blank=True)
+    books = models.ManyToManyField("Book", verbose_name="Książki autora", blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    def get_absolute_url(self):
+        return f'/author/{self.to_author.id}/'
+
 
 
 class Book(models.Model):
@@ -67,6 +71,8 @@ class ScreenAdaptation(models.Model):
 
     def __str__(self):
         return self.movie
+
+
 
 
 class UserStory(models.Model):

@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from czytaj.views import (MainView, ListOfBooksView, BookView, AddBookView, AuthorListView, AddAuthorView, AuthorView,
-                          LoginView, LogoutView, AddReviewView, ReviewView, AddUserView, ScreenAdaptationView, MovieView, AddMovieView, UserStoryView, AddUserStoryView)
+                          LoginView, LogoutView, AddReviewView, ReviewView, AddUserView, ScreenAdaptationView, MovieView,
+                          AddMovieView, UserStoryView, AddUserStoryView, AuthorUpdateView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('add_book/', AddBookView.as_view(), name="add-book"),
     path('authors_list/', AuthorListView.as_view(), name="author-list"),
     path('add_author/', AddAuthorView.as_view(), name='add-author'),
+    path('update_author/<int:pk>/', AuthorUpdateView.as_view()),
     path('author/<int:author_id>/', AuthorView.as_view(), name='author'),
     path('add_review/', AddReviewView.as_view(), name="review"),
     path('login/', LoginView.as_view(), name='login'),
